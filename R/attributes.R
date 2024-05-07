@@ -543,14 +543,14 @@ set_value_at <- function(value, idx, length_out) {
 
   assert_named_list(value)
 
-  if (any(sapply(value, length) != length(index))) {
+  if (!all(lengths(value) == length(index))) {
     stop("Invalid attribute value length, must match number of vertices")
   }
 
   if (!missing(index)) {
     index <- as_igraph_vs(graph, index)
 
-    if (any(duplicated(index)) || any(is.na(index))) {
+    if (anyDuplicated(index) || anyNA(index)) {
       stop("Invalid vertices in index")
     }
   }
