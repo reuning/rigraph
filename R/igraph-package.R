@@ -10,6 +10,7 @@
 #' @importFrom rlang inject
 #' @importFrom rlang warn
 #' @importFrom rlang %||%
+#' @importFrom rlang as_function
 ## usethis namespace: end
 NULL
 
