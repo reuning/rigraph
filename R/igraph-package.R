@@ -11,6 +11,10 @@
 #' @importFrom rlang warn
 #' @importFrom rlang %||%
 #' @importFrom rlang as_function
+#' @importFrom rlang global_env
+#' @importFrom rlang set_names
+#' @importFrom rlang is_logical
+#' @importFrom rlang is_true
 ## usethis namespace: end
 NULL
 
