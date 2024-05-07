@@ -530,6 +530,13 @@ vertex.attributes <- function(graph, index = V(graph)) {
   res
 }
 
+set_value_at <- function(value, idx, length_out) {
+  out <- value[NULL]
+  length(out) <- length_out
+  out[idx] <- value
+  unname(out)
+}
+
 #' @export
 "vertex.attributes<-" <- function(graph, index = V(graph), value) {
   ensure_igraph(graph)
@@ -548,16 +555,11 @@ vertex.attributes <- function(graph, index = V(graph)) {
     }
   }
 
-  if (!missing(index) &&
-    (length(index) != vcount(graph) || any(index != V(graph)))) {
-    vs <- V(graph)
-    for (i in seq_along(value)) {
-      tmp <- value[[i]]
-      length(tmp) <- 0
-      length(tmp) <- length(vs)
-      tmp[index] <- value[[i]]
-      value[[i]] <- tmp
-    }
+  index_is_natural_sequence <- (length(index) == vcount(graph) && all(index == V(graph)))
+  if (!missing(index) && !index_is_natural_sequence) {
+    value <- map(value, function(x) {
+      set_value_at(x, idx = index, length_out = length(V(graph)))
+    })
   }
 
   .Call(R_igraph_mybracket2_set, graph, igraph_t_idx_attr, igraph_attr_idx_vertex, value)
